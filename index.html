@@ -16,16 +16,17 @@
 </head>
 
 <body>
-	<div id="header">
+    	<div id="header">
 		<h2 class="title">Example: Leaflet WMS from Geoserver</h2>
-    </div>
+    	</div>
     
 
 	<div id="map"></div>
 	
 	<script>	
 		var map, tipPolygons, tipPoints, tipLines;
-		 		
+		
+		// Initialize base layers
 		var ggl_road = new L.Google('ROADMAP');
 		 		
 		var ggl_aerial = new L.Google('SATELLITE');
@@ -35,7 +36,7 @@
 			mapquest = new L.TileLayer(mapquestUrl, {maxZoom: 18, attribution: mapquestAttribution, subdomains: ['1','2','3','4']});
 		
 			   
-		// Add WMS layers from geoserver
+		// Initialize WMS layers from geoserver
 		var tipPolygons = L.tileLayer.wms("http://gis.drcog.org/geoserver/gwc/service/wms", {
 		   layers: 'DRCOGPUB:tip_project_polygons_2012_2017',
 		   format: 'image/png',
@@ -55,7 +56,7 @@
 		   });
 		
 		
-		
+		// Initialize the map object
 		map = new L.Map('map', {
 			center: new L.LatLng(39.79, -464.97), 
 			zoom: 9,
@@ -65,12 +66,13 @@
 		});
 		
 		
+		// Add layers to the map object
 		map.addLayer(tipPolygons);
 		map.addLayer(tipLines);
 		map.addLayer(tipPoints);
 			
 			
-		// Builds the layer switcher
+		// Builds the base layer switcher
 		var baseMaps = {
 			"Google Roads": ggl_road,
 			"Google Aerial": ggl_aerial,
@@ -78,7 +80,7 @@
 			};
 		
 		
-		// ************** This doesn't work yet.	
+		// Builds the overlay switcher	
 		var overlays = {
 			"TIP Polygons": tipPolygons,
 			"TIP Lines": tipLines,
@@ -86,7 +88,7 @@
 			}; 	
 
 			
-		// adds the layer switcher control
+		// Adds the layer switcher control to the map
 		map.addControl(new L.control.layers(baseMaps, overlays));
 	
 	</script>
